@@ -6,16 +6,24 @@
  * @docs		:: http://sailsjs.org/#!documentation/models
  */
 
+var bcrypt = require("bcrypt");
+
 module.exports = {
 
-  schema: true,
+  adapter: 'neo4j',
+
+  schema: false,
 
   attributes: {
     username: {
       type: 'string',
+      required: true,
+      unique: true
+    },
+    password: {
+      type: 'string',
       required: true
     },
-
 
 
     userId: 'INT',
@@ -28,7 +36,28 @@ module.exports = {
     // Define a custom instance method
     fullName: function() {
       return this.firstName + ' ' + this.lastName;
+    },
+    //Override toJSON method to remove password from API
+    toJSON: function() {
+      var obj = this.toObject();
+      // Remove the password object value
+      delete obj.password;
+      // return the new object without password
+      return obj;
     }
+  },
+  beforeCreate: function(user, cb) {
+    bcrypt.genSalt(10, function(err, salt) {
+      bcrypt.hash(user.password, salt, function(err, hash) {
+        if (err) {
+          console.log(err);
+          cb(err);
+        }else{
+          user.password = hash;
+          cb(null, user);
+        }
+      });
+    });
   }
 
 };

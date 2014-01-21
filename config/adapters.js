@@ -44,5 +44,11 @@ module.exports.adapters = {
     password : '',
     database : 'media-review',
     schema   : true
+  },
+  neo4j: {
+    module   : 'sails-neo4j',
+    host     : 'localhost',
+    port     : 7474,
+
   }
 };

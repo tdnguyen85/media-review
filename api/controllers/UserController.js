@@ -18,9 +18,10 @@
 module.exports = {
 
   create: function(req, res) {
-    User.create({name: req.params('name')}).done(function(err, user) {
+    console.log('params;' + req);
+    User.create('users', req.params, function(err, user) {
       if (err) {
-        return console.log(err);
+        return console.log('ERROR: ' + err);
       } else {
         console.log("User created:", user);
       }
@@ -39,6 +40,10 @@ module.exports = {
   },
   destroy: function(req, res) {
 
+  },
+  show: function(req, res) {
+    console.log(req);
+    res.send({data: "in show"});
   },
   seedUsers: function(req, res) {
     var seeds = [
