@@ -19,11 +19,11 @@ module.exports = {
 
   create: function(req, res) {
     console.log('params;' + req);
-    User.create('users', req.params, function(err, user) {
+    User.create('users', req.query, function(err, user) {
       if (err) {
         return console.log('ERROR: ' + err);
       } else {
-        console.log("User created:", user);
+        console.log("----------User created:----------", user);
       }
     });
   },
