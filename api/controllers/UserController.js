@@ -18,7 +18,7 @@
 module.exports = {
 
   create: function(req, res) {
-    console.log('params;' + req);
+    console.log('params:::' + req.query.username);
     User.create('users', req.query, function(err, user) {
       if (err) {
         return console.log('ERROR: ' + err);
